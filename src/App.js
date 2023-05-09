@@ -1,24 +1,68 @@
 import './App.css';
-import Card from "./components/Card/Card"
 import Cards from './components/Cards/Cards';
-import SearchBar from './components/SearchBar/SearchBar';
-import characters, { Rick } from './data.js';
+import Nav from './components/Nav/Nav';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import About from './components/About/About';
+import Detail from './components/Detail/Detail';
+import Form from './components/Forms/Forms';
+
+const EMAIL = "isaac@gmail.com"
+const PASSWORD = "abc123"
+
 
 function App() {
+   const[characters, setCharacters] = useState([])
+   const [access, setAccess] = useState(false)
+   const  navigate = useNavigate();
+   const {pathname} = useLocation()
+   
+
+   const onSearch = (id) =>{
+      axios(`https://rickandmortyapi.com/api/character/${id}`).then(({ data }) => {
+      if (data.name) {
+         setCharacters((oldChars) => [...oldChars, data]);
+      } else {
+         window.alert('¡No hay personajes con este ID!');
+      }
+   });
+   }
+
+   const onClose = (id)=>{
+      setCharacters(
+         characters.filter((char)=>{
+            return char.id !== Number(id)
+         })
+      )
+   }
+
+   const login = (userData)=>{
+      if(userData.email === EMAIL && userData.password === PASSWORD){
+         setAccess(true)
+         navigate('/home')
+      }
+   }
+
+   useEffect(() => {
+      !access && navigate('/');
+   }, [access]);
+
+
+
    return (
       <div className='App'>
-         <SearchBar onSearch={(characterID) => window.alert(characterID)} />
-         <Cards characters={characters} />
-         <Card
-            id={Rick.id}
-            name={Rick.name}
-            status={Rick.status}
-            species={Rick.species}
-            gender={Rick.gender}
-            origin={Rick.origin.name}
-            image={Rick.image}
-            onClose={() => window.alert('Emulamos que se cierra la card')}
-         />
+
+         {pathname !== '/' && <Nav onSearch = {onSearch}/>}
+         
+         
+         <Routes>
+            <Route path="/" element={<Form login = {login}/>}/>
+            <Route path="/home" element={<Cards characters={characters} onClose={onClose}/>}/>
+            <Route path="/about" element={<About/>}/>
+            <Route path="/detail/:id" element={<Detail/>}/>
+         </Routes>
+
       </div>
    );
 }

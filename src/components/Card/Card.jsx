@@ -1,10 +1,16 @@
+import style from "./Card.module.css"
+import { NavLink } from "react-router-dom";
 
 const Card = (props) => {
 
    return (
-      <div>
-         <button onClick={props.onClose}>X</button>
-         <h2>{props.name}</h2>
+      <div className={style.card}>
+         <button onClick={()=>{props.onClose(props.id)}}>X</button>
+         <NavLink to={`/detail/${props.id}`}>
+
+         <h2 className={style.name}>{props.name}</h2>
+         
+         </NavLink>
          <h2>{props.status}</h2>
          <h2>{props.species}</h2>
          <h2>{props.gender}</h2>

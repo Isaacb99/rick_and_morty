@@ -1,0 +1,13 @@
+
+.card{
+    padding-top: 80px;
+    margin: 10px;
+    text-align: center;
+}
+.name{
+    background-color:coral;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color:coral;
+}
