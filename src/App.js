@@ -7,6 +7,7 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import About from './components/About/About';
 import Detail from './components/Detail/Detail';
 import Form from './components/Forms/Forms';
+import Favorites from './components/Favorites/Favorites';
 
 const EMAIL = "isaac@gmail.com"
 const PASSWORD = "abc123"
@@ -45,7 +46,9 @@ function App() {
    }
 
    useEffect(() => {
+      // eslint-disable-next-line
       !access && navigate('/');
+      // eslint-disable-next-line
    }, [access]);
 
 
@@ -57,6 +60,7 @@ function App() {
          
          
          <Routes>
+            <Route path="/favorites" element={<Favorites/>}/>
             <Route path="/" element={<Form login = {login}/>}/>
             <Route path="/home" element={<Cards characters={characters} onClose={onClose}/>}/>
             <Route path="/about" element={<About/>}/>

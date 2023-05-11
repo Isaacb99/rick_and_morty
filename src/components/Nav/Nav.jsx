@@ -1,7 +1,7 @@
 import style from "./Nav.module.css"
 import SearchBar from "../SearchBar/SearchBar"
 import { Link } from "react-router-dom"
-import About from "../About/About"
+
 
 const Nav = ({onSearch})=>{
     return(
@@ -14,6 +14,11 @@ const Nav = ({onSearch})=>{
             <button>
                 <Link to="/home">Home</Link>
             </button>
+
+            <button>
+                <Link to="/favorites">Favorites</Link>
+            </button>
+        
         </div>
     )
 }
